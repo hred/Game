@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title></title>
+</head>
+<body bgcolor= yellow;>
+  <h1>Welcome to the World</h1>
+
+	  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.8.24/jquery-ui.min.js" type="text/javascript"></script>
+    <link href="http://code.jquery.com/ui/1.8.24/themes/blitzer/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="javascript/js">
+    <script>
+    $(init);
+    var correctCards = 0;
+    function init()
+    {
+
+      // Hide the success message
+        $('#successMessage').hide();
+        $('#successMessage').css
+        (
+          {
+            left: '580px',
+            top: '250px',
+            width: 0,
+            height: 0
+          }
+        );
+
+         // Reset the game
+        correctCards = 0;
+        $("#dvSource").html();
+        $("#dvDrop").html();
+
+
+      $("#dvSource img").draggable
+      (
+        {
+          containment: '#content',
+          stack: '#dvSource img',
+          cursor: 'move',
+          revert: true
+        }
+      )
+
+      $("#dvDrop div").droppable
+      (
+        {
+          accept: '#dvSource img',
+          hoverClass: 'hovered',
+          drop: handleCardDrop
+        }
+      )
+
+    }
+      function handleCardDrop( event, ui )
+      {
+
+        var DropId = $(this).attr( 'id' );
+        var DragId = ui.draggable.attr( 'id' );
+        var aDrop = parseInt(DropId.slice(5));
+        var bDrag = DragId.slice(5);
+
+        if ( aDrop == bDrag )
+        {
+
+
+          ui.draggable.draggable( 'disable' );
+          $(this).droppable( 'disable' );
+          ui.draggable.position( { of: $(this), my: 'left top', at: 'left top' } );
+          ui.draggable.draggable( 'option', 'revert', false );
+          correctCards++;
+        }
+
+
+        if ( correctCards == 8 )
+        {
+          $('#successMessage').show();
+          $('#successMessage').animate
+          (
+            {
+              left: '380px',
+              top: '200px',
+              width: '400px',
+              height: '100px',
+              opacity: 1
+            }
+          );
+        }
+      }
+
+
+
+    </script>
+
+	<div id="content">
+		<div id="dvSource">
+			<img alt="" id="Drag_3" src="img/Algeria.jpg" />
+			<img alt="" id="Drag_4" src="img/England.jpg" />
+			<img alt="" id="Drag_1" src="img/France.jpg" />
+			<img alt="" id="Drag_5" src="img/india.jpg" />
+			<img alt="" id="Drag_2" src="img/Malaysia.jpg" />
+			<img alt="" id="Drag_7" src="img/Sweden.jpg" />
+			<img alt="" id="Drag_8" src="img/Zambia.jpg" />
+			<img alt="" id="Drag_6" src="img/Thailand.jpg" />
+		</div>
+		<br><br>
+		 <div id="dvDrop">
+		   <div id="Drop_1">France</div>
+		   <div id="Drop_5">india</div>
+		   <div id="Drop_3">Algeria</div>
+		   <div id="Drop_4">England</div>
+		   <div id="Drop_8">Zambia</div>
+		   <div id="Drop_7">Sweden</div>
+		   <div id="Drop_2">Malaysia</div>
+		   <div id="Drop_6">Thailand</div>
+		</div>
+		<div id="successMessage">
+			<h2>You Won!</h2>
+			<button onclick="init()">Start again</button>
+		</div>
+	</div>
+</body>
+</html>
